@@ -4,6 +4,9 @@ go 1.20
 
 require (
 	github.com/99designs/gqlgen v0.17.35
+	github.com/devfullcycle/13-GraphQL v0.0.0-20230417175350-eee2d41d46a1
+	github.com/google/uuid v1.3.0
+	github.com/mattn/go-sqlite3 v1.14.17
 	github.com/vektah/gqlparser/v2 v2.5.7
 )
 
