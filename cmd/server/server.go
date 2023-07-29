@@ -30,8 +30,9 @@ func main() {
 	}
 
 	categoryDb := database.NewCategory(db)
+	courseDb := database.NewCourse(db)
 
-	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{CategoryDb: categoryDb}}))
+	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{CategoryDb: categoryDb, CourseDb: courseDb}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
