@@ -33,6 +33,21 @@ func NewCategory(db *sql.DB) *Category {
 	return &Category{db: db}
 }
 
+func (c *Category) FindById(id string) Category {
+	result := c.db.QueryRow("SELECT * FROM categories WHERE id = ?", id)
+
+	var currentId, name, description string
+	result.Scan(&currentId, &name, &description)
+
+	var category = Category{
+		ID:          id,
+		Name:        name,
+		Description: description,
+	}
+
+	return category
+}
+
 func (c *Category) FindAll() ([]Category, error) {
 
 	result, err := c.db.Query("SELECT * FROM categories;")
