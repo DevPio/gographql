@@ -34,7 +34,7 @@ func NewCategory(db *sql.DB) *Category {
 }
 
 func (c *Category) FindById(id string) Category {
-	result := c.db.QueryRow("SELECT * FROM categories WHERE id = ?", id)
+	result := c.db.QueryRow("SELECT * FROM categories WHERE id = ?;", id)
 
 	var currentId, name, description string
 	result.Scan(&currentId, &name, &description)
@@ -46,6 +46,31 @@ func (c *Category) FindById(id string) Category {
 	}
 
 	return category
+}
+
+func (c *Category) FindByCourseId(course Course) ([]Category, error) {
+	result, err := c.db.Query("SELECT * FROM courses WHERE categoryId = ?;", c.ID)
+
+	if err != nil {
+
+		return nil, err
+	}
+
+	categories := []Category{}
+
+	for result.Next() {
+		var id, name, description string
+
+		result.Scan(&id, &name, &description)
+
+		categories = append(categories, Category{
+			ID:          id,
+			Name:        name,
+			Description: description,
+		})
+	}
+
+	return categories, nil
 }
 
 func (c *Category) FindAll() ([]Category, error) {
